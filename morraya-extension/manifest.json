@@ -1,16 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "MORRAYA – Invierte tu cambio",
+  "name": "MORRAYA",
   "short_name": "MORRAYA",
-  "version": "0.1.0",
-  "description": "Round-up automático: invierte el cambio de tus compras en CETES tokenizados en Monad.",
-  "permissions": [
-    "storage",
-    "activeTab"
-  ],
+  "version": "1.0.0",
+  "description": "Invierte el cambio de tus compras diarias en CETES tokenizados en Monad.",
+  "permissions": ["storage"],
   "host_permissions": [
     "https://api.sand.etherfuse.com/*",
-    "https://api.etherfuse.com/*",
     "https://stablebonds.etherfuse.com/*"
   ],
   "background": {
@@ -20,8 +16,5 @@
   "action": {
     "default_popup": "popup.html",
     "default_title": "MORRAYA"
-  },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
   }
 }

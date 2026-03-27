@@ -4,585 +4,895 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MORRAYA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ─── Reset & Base ───────────────────────────────────────────────── */
+    /* ─── Reset & Base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      width: 360px;
-      min-height: 520px;
-      background: #0a0e17;
-      color: #e2e8f0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 14px;
-      overflow-x: hidden;
+    :root {
+      --bg:       #0e0e10;
+      --surface:  #17171a;
+      --surface2: #1f1f24;
+      --border:   #2a2a30;
+      --blue:     #5b8dee;
+      --blue-dim: #5b8dee22;
+      --green:    #4ade80;
+      --green-dim:#4ade8020;
+      --gold:     #e2b96a;
+      --gold-dim: #e2b96a1a;
+      --text:     #f0f0f4;
+      --muted:    #7a7a8a;
+      --radius:   12px;
+      --radius-sm:8px;
     }
 
-    /* ─── Header ────────────────────────────────────────────────────── */
+    html, body {
+      width: 360px;
+      min-height: 560px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Scrollbar ────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    /* ─── Layout ────────────────────────────────────────────────── */
+    .popup {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 360px;
+      overflow: hidden;
+    }
+
+    /* ─── Header ────────────────────────────────────────────────── */
     .header {
-      background: linear-gradient(135deg, #0f172a 0%, #1a1040 100%);
-      padding: 16px 20px 14px;
-      border-bottom: 1px solid #1e293b;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 14px 16px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .logo-icon {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue) 0%, #3a6fdb 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px #5b8dee40;
     }
 
     .logo-text {
-      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-name {
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #818cf8, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.08em;
+      color: var(--text);
     }
 
     .logo-sub {
       font-size: 10px;
-      color: #64748b;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 1px;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: 0.04em;
     }
 
-    .network-badge {
-      background: #0d2d1a;
-      border: 1px solid #166534;
-      color: #4ade80;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      display: flex;
+      align-items: center;
+      gap: 5px;
       font-size: 10px;
+      color: var(--green);
+      font-weight: 500;
+      background: var(--green-dim);
       padding: 3px 8px;
-      border-radius: 20px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      border-radius: 99px;
+      border: 1px solid #4ade8030;
     }
 
-    /* ─── Status message ────────────────────────────────────────────── */
-    #status-message {
-      display: none;
-      margin: 10px 16px 0;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 12px;
+    .status-dot::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
     }
-    #status-message.visible { display: block; }
 
-    /* ─── Main content ──────────────────────────────────────────────── */
-    .content {
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .btn-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+
+    .btn-icon:hover { background: var(--border); color: var(--text); }
+
+    /* ─── CETES Strip ───────────────────────────────────────────── */
+    .cetes-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: linear-gradient(90deg, #1a1a0e 0%, #1c1a0a 100%);
+      border-bottom: 1px solid #2a2818;
+    }
+
+    .cetes-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .cetes-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid #e2b96a30;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .cetes-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .cetes-rate {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+    }
+
+    .cetes-rate span {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .cetes-chain {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .chain-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 6px var(--blue);
+    }
+
+    /* ─── Body Content ──────────────────────────────────────────── */
+    .body {
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    /* ─── Wallet card ───────────────────────────────────────────────── */
-    .card {
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 14px 16px;
-    }
-
-    .card-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #475569;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .wallet-row {
+    /* ─── Balance Hero ──────────────────────────────────────────── */
+    .balance-hero {
+      background: linear-gradient(135deg, var(--surface) 0%, #1a1a20 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .wallet-info {
+    .balance-hero::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, #5b8dee18 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .balance-left { display: flex; flex-direction: column; gap: 3px; }
+
+    .balance-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .balance-amount {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .balance-amount .currency {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-right: 2px;
+    }
+
+    .balance-sub {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .balance-change {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .balance-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+
+    .yield-badge {
       display: flex;
       flex-direction: column;
+      align-items: flex-end;
       gap: 2px;
     }
 
-    #wallet-address {
-      font-family: "SF Mono", monospace;
-      font-size: 13px;
-      color: #94a3b8;
-    }
+    .yield-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 
-    #wallet-balance {
-      font-size: 18px;
+    .yield-value {
+      font-size: 16px;
       font-weight: 700;
-      color: #e2e8f0;
+      color: var(--green);
     }
 
-    /* ─── Buttons ───────────────────────────────────────────────────── */
-    .btn {
-      padding: 9px 16px;
-      border-radius: 8px;
-      font-size: 13px;
+    .monad-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9px;
+      color: var(--blue);
+      background: var(--blue-dim);
+      border: 1px solid #5b8dee30;
+      padding: 3px 7px;
+      border-radius: 99px;
       font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: all 0.15s ease;
-      white-space: nowrap;
+      letter-spacing: 0.05em;
     }
 
-    .btn:active { transform: scale(0.97); }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    /* ─── Input Section ─────────────────────────────────────────── */
+    .input-section { display: flex; flex-direction: column; gap: 8px; }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: white;
-    }
-    .btn-primary:hover:not(:disabled) {
-      background: linear-gradient(135deg, #818cf8, #a78bfa);
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #334155;
-      color: #94a3b8;
-    }
-    .btn-outline:hover:not(:disabled) {
-      border-color: #6366f1;
-      color: #818cf8;
+    .input-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
-    .btn-sm { padding: 6px 12px; font-size: 12px; }
-
-    /* ─── CETES yield badge ─────────────────────────────────────────── */
-    .yield-row {
+    .input-wrapper {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .yield-badge {
-      background: linear-gradient(135deg, #064e3b, #065f46);
-      border: 1px solid #059669;
-      color: #34d399;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-weight: 700;
-    }
-
-    .yield-label {
-      font-size: 11px;
-      color: #64748b;
-    }
-
-    /* ─── Simulador de compra ────────────────────────────────────────── */
-    .simulator-card {
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 14px 16px;
-    }
-
-    .input-group {
-      display: flex;
-      align-items: center;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: border-color 0.15s;
-    }
-
-    .input-group:focus-within {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
     }
 
     .input-prefix {
-      padding: 0 12px;
-      color: #64748b;
-      font-size: 14px;
+      position: absolute;
+      left: 12px;
+      font-size: 15px;
       font-weight: 600;
-      background: #1a2540;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      border-right: 1px solid #334155;
+      color: var(--muted);
+      pointer-events: none;
+      z-index: 1;
     }
 
-    #purchase-amount {
-      flex: 1;
-      background: transparent;
-      border: none;
+    .amount-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px 10px 26px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
       outline: none;
-      color: #e2e8f0;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 10px 12px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      caret-color: var(--blue);
     }
 
-    #purchase-amount::placeholder { color: #334155; }
+    .amount-input::placeholder { color: var(--border); font-weight: 500; }
+
+    .amount-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px #5b8dee18;
+    }
 
     .input-suffix {
-      padding: 0 12px;
-      color: #475569;
-      font-size: 12px;
+      position: absolute;
+      right: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      pointer-events: none;
     }
 
-    /* ─── Round-up display ───────────────────────────────────────────── */
-    .roundup-row {
+    /* ─── Pills ─────────────────────────────────────────────────── */
+    .pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pill {
+      flex: 1;
+      padding: 7px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .pill:hover {
+      background: var(--blue-dim);
+      border-color: #5b8dee50;
+      color: var(--blue);
+    }
+
+    .pill.active {
+      background: var(--blue-dim);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    /* ─── Detection Card ────────────────────────────────────────── */
+    .detection-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .detection-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 12px;
-      padding: 10px 12px;
-      background: #1a1040;
-      border: 1px dashed #312e81;
-      border-radius: 8px;
     }
 
-    .roundup-label {
-      font-size: 12px;
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    #roundup-amount {
-      font-size: 18px;
-      font-weight: 700;
-      color: #818cf8;
-    }
-
-    .roundup-arrow {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .detection-title {
       font-size: 11px;
-      color: #475569;
-      margin-top: 8px;
-    }
-
-    .roundup-arrow .arrow-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #312e81;
-    }
-
-    /* ─── Invest button ──────────────────────────────────────────────── */
-    .invest-btn-wrap {
-      margin-top: 12px;
-    }
-
-    #btn-invest {
-      width: 100%;
-      padding: 13px;
-      font-size: 15px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: white;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s ease;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
+    }
+
+    .detection-icon {
+      font-size: 13px;
+    }
+
+    .detection-live {
+      font-size: 9px;
+      color: var(--green);
+      font-weight: 600;
+      background: var(--green-dim);
+      padding: 2px 6px;
+      border-radius: 99px;
+      border: 1px solid #4ade8025;
+      letter-spacing: 0.06em;
+    }
+
+    .detection-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .detection-site {
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
 
-    #btn-invest:hover:not(:disabled) {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      box-shadow: 0 4px 24px rgba(99, 102, 241, 0.5);
-      transform: translateY(-1px);
-    }
-
-    #btn-invest:active:not(:disabled) { transform: translateY(0); }
-    #btn-invest:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-
-    /* ─── TX result ─────────────────────────────────────────────────── */
-    #tx-result {
-      display: none;
-      background: #0d2d1a;
-      border: 1px solid #166534;
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-
-    .tx-success-header {
-      color: #4ade80;
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 8px;
+    .site-favicon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #5b8dee30 0%, #3a6fdb20 100%);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+
+    .site-info { display: flex; flex-direction: column; gap: 1px; }
+
+    .site-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .site-url {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .detection-amounts {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .amount-original {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .amount-arrow { font-size: 10px; color: var(--border); }
+
+    .amount-rounded {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .residuo-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, #4ade8010 0%, transparent 100%);
+      border-radius: var(--radius-sm);
+      padding: 7px 10px;
+      border: 1px solid #4ade8020;
+    }
+
+    .residuo-label {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .residuo-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    /* ─── Action Buttons ────────────────────────────────────────── */
+    .actions { display: flex; gap: 8px; }
+
+    .btn {
+      flex: 1;
+      padding: 11px 8px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: 6px;
+      transition: all 0.15s;
+      letter-spacing: 0.02em;
     }
 
-    .tx-hash-label {
-      font-size: 11px;
-      color: #64748b;
-      margin-bottom: 4px;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue) 0%, #3a6fdb 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px #5b8dee30;
     }
 
-    #tx-hash {
-      font-family: "SF Mono", monospace;
-      font-size: 11px;
-      color: #818cf8;
-      word-break: break-all;
-      text-decoration: none;
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px #5b8dee45;
     }
-    #tx-hash:hover { text-decoration: underline; }
 
-    .tx-explorer-link {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 11px;
-      color: #60a5fa;
-      text-decoration: none;
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
     }
-    .tx-explorer-link:hover { text-decoration: underline; }
 
-    /* ─── Historial ──────────────────────────────────────────────────── */
-    .history-section {
-      margin-top: 4px;
+    .btn-secondary:hover {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-icon-inner { font-size: 14px; }
+
+    /* ─── Historial ─────────────────────────────────────────────── */
+    .history {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 14px 16px;
     }
 
     .history-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .section-title {
+    .history-title {
       font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #475569;
       font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
 
-    #history-list {
-      list-style: none;
+    .history-link {
+      font-size: 10px;
+      color: var(--blue);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .history-list {
       display: flex;
       flex-direction: column;
       gap: 1px;
     }
 
-    #history-list li {
+    .history-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 8px 10px;
-      background: #0f172a;
-      border-radius: 6px;
-      font-size: 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.1s;
     }
 
-    .history-amount { color: #4ade80; font-weight: 600; }
-    .history-date   { color: #475569; }
-    .history-hash   {
-      font-family: monospace;
-      font-size: 11px;
-      color: #6366f1;
-      text-decoration: none;
-    }
-    .history-hash:hover { text-decoration: underline; }
+    .history-item:hover { background: var(--surface2); }
 
-    .history-empty {
-      text-align: center;
-      color: #334155;
-      font-size: 12px;
-      padding: 16px 0;
-    }
-
-    /* ─── Footer ─────────────────────────────────────────────────────── */
-    .footer {
-      padding: 10px 16px;
-      border-top: 1px solid #1e293b;
+    .history-left {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 9px;
     }
 
-    .footer-powered {
-      font-size: 10px;
-      color: #334155;
-    }
-    .footer-powered span { color: #475569; }
-
-    .footer-links {
+    .history-type {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       display: flex;
-      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
     }
-    .footer-links a {
+
+    .history-type.invest {
+      background: var(--blue-dim);
+      border: 1px solid #5b8dee25;
+    }
+
+    .history-type.accumulate {
+      background: var(--gold-dim);
+      border: 1px solid #e2b96a25;
+    }
+
+    .history-info { display: flex; flex-direction: column; gap: 1px; }
+
+    .history-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .history-date {
       font-size: 10px;
-      color: #475569;
-      text-decoration: none;
+      color: var(--muted);
     }
-    .footer-links a:hover { color: #818cf8; }
 
-    /* ─── Loader spinner ─────────────────────────────────────────────── */
-    .spinner {
-      width: 14px; height: 14px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      display: inline-block;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .history-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
 
-    /* ─── Pulse animation para el badge de red ───────────────────────── */
-    .pulse-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #4ade80;
-      display: inline-block;
-      margin-right: 4px;
-      animation: pulse 2s ease-in-out infinite;
+    .history-amount {
+      font-size: 12px;
+      font-weight: 700;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(0.8); }
+
+    .history-amount.positive { color: var(--green); }
+    .history-amount.neutral  { color: var(--gold); }
+
+    .history-status {
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 500;
     }
+
+    /* ─── Empty State ───────────────────────────────────────────── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 0 4px;
+    }
+
+    .empty-icon { font-size: 24px; opacity: 0.3; }
+
+    .empty-text {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ─── Divider ────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 -16px;
+    }
+
   </style>
 </head>
 <body>
+  <div class="popup">
 
-  <!-- ─── Header ─────────────────────────────────────────────────────── -->
-  <div class="header">
-    <div class="logo">
-      <div class="logo-icon">🪙</div>
-      <div>
-        <div class="logo-text">MORRAYA</div>
-        <div class="logo-sub">Invierte tu cambio</div>
+    <!-- ── HEADER ─────────────────────────────────────────────── -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">🌊</div>
+        <div class="logo-text">
+          <span class="logo-name">MORRAYA</span>
+          <span class="logo-sub">Round & Invest</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="status-dot">Monad</div>
+        <button class="btn-icon" title="Configuración">⚙</button>
+      </div>
+    </header>
+
+    <!-- ── CETES STRIP ────────────────────────────────────────── -->
+    <div class="cetes-strip">
+      <div class="cetes-left">
+        <span class="cetes-badge">CETES</span>
+        <span class="cetes-label">Rendimiento anual</span>
+      </div>
+      <div class="cetes-rate">
+        10.8% <span>anual</span>
+      </div>
+      <div class="cetes-chain">
+        <span class="chain-dot"></span>
+        <span>Monad Testnet</span>
       </div>
     </div>
-    <div class="network-badge">
-      <span class="pulse-dot"></span>Monad Testnet
-    </div>
-  </div>
 
-  <!-- ─── Main ───────────────────────────────────────────────────────── -->
-  <div class="content">
+    <!-- ── BODY ───────────────────────────────────────────────── -->
+    <div class="body">
 
-    <!-- Wallet card -->
-    <div class="card">
-      <div class="card-label">Tu wallet</div>
-      <div class="wallet-row">
-        <div class="wallet-info">
-          <div id="wallet-address" style="color: #475569;">Sin conectar</div>
-          <div id="wallet-balance" style="color: #475569;">— MON</div>
+      <!-- Balance Hero -->
+      <div class="balance-hero">
+        <div class="balance-left">
+          <span class="balance-label">Balance invertido</span>
+          <div class="balance-amount">
+            <span class="currency">$</span>0.00
+          </div>
+          <div class="balance-sub">
+            <span class="balance-change">+$0.000</span>
+            <span>rendimiento hoy</span>
+          </div>
         </div>
-        <button id="btn-connect" class="btn btn-primary btn-sm">
-          Conectar
+        <div class="balance-right">
+          <div class="yield-badge">
+            <span class="yield-label">Acumulado</span>
+            <span class="yield-value">$0.00</span>
+          </div>
+          <div class="monad-chip">⬡ Monad</div>
+        </div>
+      </div>
+
+      <!-- Input de Monto -->
+      <div class="input-section">
+        <span class="input-label">Monto de compra</span>
+        <div class="input-wrapper">
+          <span class="input-prefix">$</span>
+          <input
+            class="amount-input"
+            type="number"
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+            id="amountInput"
+            autocomplete="off"
+          />
+          <span class="input-suffix">MXN</span>
+        </div>
+        <!-- Pills -->
+        <div class="pills">
+          <button class="pill" data-value="10">$10</button>
+          <button class="pill" data-value="50">$50</button>
+          <button class="pill" data-value="100">$100</button>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Detección -->
+      <div class="detection-card">
+        <div class="detection-header">
+          <span class="detection-title">
+            <span class="detection-icon">🔍</span>
+            Compra detectada
+          </span>
+          <span class="detection-live">EN VIVO</span>
+        </div>
+
+        <div class="detection-row">
+          <div class="detection-site">
+            <div class="site-favicon">🛒</div>
+            <div class="site-info">
+              <span class="site-name">Amazon México</span>
+              <span class="site-url">amazon.com.mx</span>
+            </div>
+          </div>
+          <div class="detection-amounts">
+            <span class="amount-original">$247.50</span>
+            <span class="amount-arrow">→</span>
+            <span class="amount-rounded">$250.00</span>
+          </div>
+        </div>
+
+        <div class="residuo-row">
+          <span class="residuo-label">
+            💰 Residuo a invertir
+          </span>
+          <span class="residuo-value">+ $2.50</span>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="actions">
+        <button class="btn btn-primary" id="btnInvert">
+          <span class="btn-icon-inner">⚡</span>
+          Invertir ahora
+        </button>
+        <button class="btn btn-secondary" id="btnAccum">
+          <span class="btn-icon-inner">🏦</span>
+          Acumular
         </button>
       </div>
 
-      <div class="yield-row">
-        <div class="yield-badge" id="cetes-apy">~10.5% APY</div>
-        <div class="yield-label">CETES tokenizados · Etherfuse × Monad</div>
-      </div>
-    </div>
+    </div><!-- /body -->
 
-    <!-- Simulador -->
-    <div class="simulator-card">
-      <div class="card-label">Simula una compra</div>
-
-      <div class="input-group">
-        <div class="input-prefix">$</div>
-        <input
-          id="purchase-amount"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="91.50"
-          autocomplete="off"
-        />
-        <div class="input-suffix">MXN</div>
-      </div>
-
-      <div class="roundup-row">
-        <div class="roundup-label">
-          <span>⬆</span>
-          Round-up al siguiente $100
-        </div>
-        <div id="roundup-amount" style="color: #334155;">—</div>
-      </div>
-
-      <div class="roundup-arrow">
-        <div class="arrow-dot"></div>
-        <span>El cambio se invierte automáticamente en CETES</span>
-      </div>
-
-      <!-- Botón invertir -->
-      <div class="invest-btn-wrap">
-        <button id="btn-invest" disabled>
-          <span>🔒</span>
-          <span id="btn-invest-text">Invertir Round-Up</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- TX result (oculto hasta que hay una tx) -->
-    <div id="tx-result">
-      <div class="tx-success-header">
-        <span>✅</span>
-        <span id="tx-success-label">Inversión exitosa</span>
-      </div>
-      <div class="tx-hash-label">Hash de la transacción:</div>
-      <a id="tx-hash" href="#" target="_blank" rel="noopener">—</a>
-      <br/>
-      <a id="tx-explorer" class="tx-explorer-link" href="#" target="_blank" rel="noopener">
-        Ver en Monad Explorer →
-      </a>
-    </div>
-
-    <!-- Historial -->
-    <div class="history-section">
+    <!-- ── HISTORIAL ──────────────────────────────────────────── -->
+    <div class="history">
       <div class="history-header">
-        <div class="section-title">Historial de inversiones</div>
+        <span class="history-title">Historial</span>
+        <a class="history-link" id="linkHistory">Ver todo →</a>
       </div>
-      <ul id="history-list">
-        <li class="history-empty" style="background: transparent; justify-content: center;">
-          Sin inversiones aún
-        </li>
-      </ul>
+
+      <div class="history-list" id="historyList">
+
+        <!-- Item 1 -->
+        <div class="history-item">
+          <div class="history-left">
+            <div class="history-type invest">💎</div>
+            <div class="history-info">
+              <span class="history-name">Amazon México</span>
+              <span class="history-date">Hoy 14:23 · Inversión</span>
+            </div>
+          </div>
+          <div class="history-right">
+            <span class="history-amount positive">+$2.50</span>
+            <span class="history-status">Confirmado</span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="history-item">
+          <div class="history-left">
+            <div class="history-type accumulate">🏦</div>
+            <div class="history-info">
+              <span class="history-name">Mercado Libre</span>
+              <span class="history-date">Ayer 09:07 · Acumulado</span>
+            </div>
+          </div>
+          <div class="history-right">
+            <span class="history-amount neutral">$8.30</span>
+            <span class="history-status">Pendiente</span>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="history-item">
+          <div class="history-left">
+            <div class="history-type invest">💎</div>
+            <div class="history-info">
+              <span class="history-name">Rappi</span>
+              <span class="history-date">22 Mar · Inversión</span>
+            </div>
+          </div>
+          <div class="history-right">
+            <span class="history-amount positive">+$15.70</span>
+            <span class="history-status">Confirmado</span>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-  </div>
-
-  <!-- ─── Footer ─────────────────────────────────────────────────────── -->
-  <div class="footer">
-    <div class="footer-powered">
-      Powered by <span>Etherfuse × Monad</span>
-    </div>
-    <div class="footer-links">
-      <a href="https://testnet.monadexplorer.com" target="_blank">Explorer</a>
-      <a href="https://faucet.monad.xyz" target="_blank">Faucet</a>
-    </div>
-  </div>
-
-  <script type="module" src="popup.js"></script>
+  </div><!-- /popup -->
 </body>
 </html>
