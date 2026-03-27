@@ -6,212 +6,260 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      width: 340px;
-      background: #0a0a0f;
+      width: 360px;
+      background: #07070f;
       color: #e2e2e2;
       font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
     }
 
-    .header {
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a0a2e 0%, #0d0d1f 100%);
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid #1e1e35;
+    }
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo-icon { font-size: 26px; }
+    .logo-text { font-size: 20px; font-weight: 800; color: #fff; }
+    .logo-sub { font-size: 11px; color: #836ef9; font-weight: 500; }
+    .wallet-badge {
+      display: none;
+      background: #0f2e1a;
+      border: 1px solid #4ade80;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #4ade80;
+      gap: 5px;
+      align-items: center;
+    }
+    .wallet-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+
+    /* ── TAGLINE ── */
+    .tagline {
+      background: #120c24;
+      border: 1px solid #2a1f4e;
+      border-radius: 10px;
+      padding: 12px 14px;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 18px;
     }
-    .header h1 { font-size: 20px; color: #fff; }
-    .header span { font-size: 24px; }
-    .tagline { font-size: 11px; color: #836ef9; margin-top: 2px; }
+    .tagline-icon { font-size: 22px; flex-shrink: 0; }
+    .tagline-text { font-size: 13px; color: #ccc; line-height: 1.4; }
+    .tagline-text strong { color: #c084fc; }
 
-    .card {
-      background: #13131e;
-      border: 1px solid #222238;
-      border-radius: 12px;
-      padding: 14px 16px;
+    /* ── VISUAL FLOW ── */
+    .flow {
+      padding: 16px 20px 8px;
+    }
+    .flow-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #444;
       margin-bottom: 10px;
     }
-    .card-label {
-      font-size: 11px;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
     }
-    .card-value {
-      font-size: 30px;
-      font-weight: 700;
-      color: #836ef9;
-    }
-    .card-value.green { color: #4ade80; }
-    .card-value.purple { color: #c084fc; }
-
-    .card-sub {
-      font-size: 11px;
-      color: #555;
-      margin-top: 4px;
-    }
-
-    .invest-card {
+    .flow-box {
+      flex: 1;
       background: #13131e;
-      border: 1.5px solid #836ef9;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 14px;
-    }
-
-    .arrow-row {
+      border: 1px solid #1e1e35;
+      border-radius: 10px;
+      padding: 10px 12px;
       text-align: center;
+    }
+    .flow-box .amount {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .flow-box .caption {
+      font-size: 10px;
+      color: #555;
+      margin-top: 2px;
+    }
+    .flow-arrow { color: #836ef9; font-size: 18px; flex-shrink: 0; }
+
+    .invest-box {
+      flex: 1;
+      background: #0e0e20;
+      border: 1.5px solid #836ef9;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .invest-box .amount { font-size: 22px; font-weight: 700; color: #c084fc; }
+    .invest-box .caption { font-size: 10px; color: #836ef9; margin-top: 2px; }
+
+    /* ── INPUT ── */
+    .input-section {
+      padding: 0 20px 12px;
+    }
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #13131e;
+      border: 1px solid #1e1e35;
+      border-radius: 10px;
+      padding: 8px 12px;
+    }
+    .input-row label { font-size: 12px; color: #555; white-space: nowrap; }
+    .input-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
       font-size: 18px;
-      color: #4ade80;
-      margin: -4px 0 6px;
+      font-weight: 600;
+      outline: none;
+      text-align: right;
     }
 
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      padding: 0 20px 14px;
+      gap: 8px;
+    }
+    .stat {
+      flex: 1;
+      background: #0d0d1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-value { font-size: 14px; font-weight: 700; color: #836ef9; }
+    .stat-label { font-size: 10px; color: #444; margin-top: 2px; }
+
+    /* ── BUTTONS ── */
+    .btn-section { padding: 0 20px 20px; }
     button {
       width: 100%;
       padding: 13px;
       border: none;
       border-radius: 10px;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: opacity 0.15s, transform 0.1s;
+      letter-spacing: 0.3px;
     }
-    button:hover { opacity: 0.85; }
-    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    button:hover { opacity: 0.88; }
+    button:active { transform: scale(0.98); }
+    button:disabled { opacity: 0.35; cursor: not-allowed; }
 
-    #connectBtn {
-      background: #836ef9;
-      color: #fff;
-    }
-    #investBtn {
-      background: #4ade80;
-      color: #000;
-      display: none;
-    }
+    #connectBtn { background: #836ef9; color: #fff; }
+    #investBtn  { background: linear-gradient(90deg,#4ade80,#22c55e); color: #000; display: none; }
 
     #status {
       font-size: 12px;
       color: #4ade80;
       margin-top: 10px;
       text-align: center;
-      min-height: 18px;
+      min-height: 16px;
       word-break: break-all;
+      padding: 0 4px;
     }
-    #status.error { color: #f87171; }
+    #status.err { color: #f87171; }
 
-    .wallet-row {
-      display: none;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: #555;
-      margin-bottom: 10px;
-      background: #13131e;
-      border-radius: 8px;
-      padding: 8px 12px;
-    }
-    .wallet-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #4ade80;
-      flex-shrink: 0;
-    }
-
-    .input-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .input-row input {
-      flex: 1;
-      padding: 10px 12px;
-      background: #13131e;
-      border: 1px solid #222238;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 15px;
-    }
-    .input-row input:focus {
-      outline: none;
-      border-color: #836ef9;
-    }
-    .input-row label {
-      font-size: 11px;
-      color: #666;
-      align-self: center;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #1e1e2e;
-      margin: 12px 0;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #555;
-      margin-top: 8px;
-    }
-    .stat-row span:last-child { color: #836ef9; }
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid #111122; margin: 0 0 12px; }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <span>💜</span>
-    <div>
-      <h1>RoundUp</h1>
-      <div class="tagline">Powered by Monad Testnet</div>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="logo">
+        <span class="logo-icon">💜</span>
+        <div>
+          <div class="logo-text">RoundUp</div>
+          <div class="logo-sub">Powered by Monad Testnet</div>
+        </div>
+      </div>
+      <div class="wallet-badge" id="walletBadge">
+        <div class="wallet-dot"></div>
+        <span id="walletAddr">0x...</span>
+      </div>
+    </div>
+
+    <!-- TAGLINE — lo primero que lees -->
+    <div class="tagline">
+      <span class="tagline-icon">🪙</span>
+      <div class="tagline-text">
+        Cada vez que pagas, <strong>RoundUp redondea al siguiente entero</strong>
+        e invierte el cambio en crypto — automático, en segundos.
+      </div>
     </div>
   </div>
 
-  <!-- Wallet info row -->
-  <div class="wallet-row" id="walletRow">
-    <div class="wallet-dot"></div>
-    <span id="walletAddr">0x...</span>
+  <!-- AMOUNT INPUT -->
+  <div class="input-section" style="padding-top:14px;">
+    <div class="input-row">
+      <label>💳 Monto del pago $</label>
+      <input type="number" id="amountInput" value="13.44" step="0.01" min="0" />
+    </div>
   </div>
 
-  <!-- Manual amount input -->
-  <div class="input-row">
-    <label>Monto $</label>
-    <input type="number" id="amountInput" placeholder="13.44" step="0.01" min="0" value="13.44" />
+  <!-- VISUAL FLOW -->
+  <div class="flow">
+    <div class="flow-label">Así funciona en tiempo real</div>
+    <div class="flow-row">
+      <div class="flow-box">
+        <div class="amount" id="originalVal" style="color:#888">$13.44</div>
+        <div class="caption">pagas</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="amount" id="roundedVal" style="color:#e2e2e2">$14.00</div>
+        <div class="caption">redondeado</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="invest-box">
+        <div class="amount" id="investVal">$0.56</div>
+        <div class="caption">💎 se invierte</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Original amount -->
-  <div class="card">
-    <div class="card-label">💳 Pago detectado</div>
-    <div class="card-value" id="originalVal">$13.44</div>
-  </div>
-
-  <div class="arrow-row">↓ redondeo</div>
-
-  <!-- Rounded -->
-  <div class="card">
-    <div class="card-label">🎯 Redondeado a</div>
-    <div class="card-value green" id="roundedVal">$14.00</div>
-    <div class="card-sub">Siguiente número entero</div>
+  <!-- STATS -->
+  <div class="stats" style="margin-top:10px;">
+    <div class="stat">
+      <div class="stat-value" id="sessionCount">0</div>
+      <div class="stat-label">inversiones hoy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="sessionTotal">0 MON</div>
+      <div class="stat-label">invertido (sesión)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="monVal">0.56</div>
+      <div class="stat-label">MON esta vez</div>
+    </div>
   </div>
 
   <hr class="divider" />
 
-  <!-- Investment -->
-  <div class="invest-card">
-    <div class="card-label">✨ Tu inversión en Monad</div>
-    <div class="card-value purple" id="investVal">$0.56</div>
-    <div class="card-sub">≈ <span id="monVal">0.0000</span> MON testnet</div>
-    <div class="stat-row">
-      <span>Invertido total (sesión)</span>
-      <span id="sessionTotal">0 MON</span>
-    </div>
+  <!-- BUTTON -->
+  <div class="btn-section">
+    <button id="connectBtn">🔌 Conectar wallet y empezar</button>
+    <button id="investBtn">🚀 Invertir $<span id="investBtnAmt">0.56</span> en Monad ahora</button>
+    <div id="status"></div>
   </div>
-
-  <!-- Buttons -->
-  <button id="connectBtn">🔌 Conectar MetaMask</button>
-  <button id="investBtn">🚀 Invertir cambio ahora</button>
-
-  <div id="status"></div>
 
   <script src="ethers.min.js"></script>
   <script src="popup.js"></script>

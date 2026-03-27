@@ -18,6 +18,7 @@ const MONAD_EXPLORER = "https://testnet.monadexplorer.com";
 
 // Estado de sesión
 let sessionInvestedMON = 0;
+let sessionCount = 0;
 let currentAmount = 13.44;
 
 // ──── UI helpers ────────────────────────────────────────────
@@ -31,15 +32,14 @@ function updateCalc(raw) {
   const amount = parseFloat(raw) || 0;
   currentAmount = amount;
 
-  // Redondear al siguiente entero si ya no es entero, o al próximo si es exacto
   const rounded = Number.isInteger(amount) ? amount + 1 : Math.ceil(amount);
   const invest = parseFloat((rounded - amount).toFixed(6));
 
   document.getElementById('originalVal').textContent = `$${amount.toFixed(2)}`;
   document.getElementById('roundedVal').textContent = `$${rounded.toFixed(2)}`;
   document.getElementById('investVal').textContent = `$${invest.toFixed(2)}`;
-  // 1 MON ≈ testnet demo (usamos 1:1 para demo visual)
-  document.getElementById('monVal').textContent = invest.toFixed(6);
+  document.getElementById('monVal').textContent = invest.toFixed(4);
+  document.getElementById('investBtnAmt').textContent = invest.toFixed(2);
 
   return invest;
 }
@@ -116,7 +116,8 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
 function showConnected(address) {
   document.getElementById('connectBtn').style.display = 'none';
   document.getElementById('investBtn').style.display = 'block';
-  document.getElementById('walletRow').style.display = 'flex';
+  const badge = document.getElementById('walletBadge');
+  if (badge) badge.style.display = 'flex';
   document.getElementById('walletAddr').textContent =
     address.slice(0, 6) + '...' + address.slice(-4);
 }
@@ -157,8 +158,9 @@ document.getElementById('investBtn').addEventListener('click', async () => {
     await tx.wait();
 
     sessionInvestedMON += invest;
-    document.getElementById('sessionTotal').textContent =
-      sessionInvestedMON.toFixed(6) + ' MON';
+    sessionCount++;
+    document.getElementById('sessionTotal').textContent = sessionInvestedMON.toFixed(4) + ' MON';
+    document.getElementById('sessionCount').textContent = sessionCount;
 
     setStatus(`✅ ¡Invertido! Ver en explorer: ${tx.hash.slice(0, 14)}...`);
 
